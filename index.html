@@ -445,10 +445,12 @@ document.getElementById('contact-form').addEventListener('submit', async functio
     btn.disabled    = true;
     status.textContent = '';
 
+    const form = this;
+
     const data = {
-        name:    this.name.value,
-        email:   this.email.value,
-        message: this.message.value,
+    name: form.querySelector('[name="name"]').value,
+    email: form.querySelector('[name="email"]').value,
+    message: form.querySelector('[name="message"]').value,
     };
 
     try {
