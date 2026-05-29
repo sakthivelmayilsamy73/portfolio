@@ -35,7 +35,8 @@ export default async function handler(req, res) {
         const response = await fetch("https://api.web3forms.com/submit", {
             method: "POST",
             headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
+                "Content-Type": "application/x-www-form-urlencoded",
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
             },
             body: formData.toString(),
         });
