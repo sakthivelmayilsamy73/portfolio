@@ -454,7 +454,7 @@ document.getElementById('contact-form').addEventListener('submit', async functio
     };
 
     try {
-        const response = await fetch('/api/contact', {
+        const response = await fetch('https://portfolio-pi-one-ly4mre8qom.vercel.app/api/contact', {
             method:  'POST',
             headers: { 'Content-Type': 'application/json' },
             body:    JSON.stringify(data),
