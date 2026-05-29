@@ -31,14 +31,21 @@ export default async function handler(req, res) {
             body: formData.toString(),
         });
 
-        const text = await response.text(); // IMPORTANT DEBUG LINE
+        if (!response.ok) {
+            return res.status(response.status).json({
+                success: false,
+                message: `Web3Forms API error: ${response.statusText}`
+            });
+        }
+
+        const text = await response.text();
         console.log("Web3Forms raw response:", text);
 
         let result;
         try {
             result = JSON.parse(text);
         } catch (e) {
-            result = { success: false, message: text };
+            result = { success: false, message: "Failed to parse response" };
         }
 
         return res.status(200).json(result);
