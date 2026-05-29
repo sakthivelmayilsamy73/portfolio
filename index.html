@@ -460,7 +460,7 @@ document.getElementById('contact-form').addEventListener('submit', async functio
 
         const result = await response.json();
 
-        if (result.success) {
+        if (result.success || result.message === "SUCCESS") {
             status.textContent  = "Message sent. I'll get back to you soon.";
             status.style.color  = 'var(--accent)';
             this.reset();
