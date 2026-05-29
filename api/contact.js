@@ -16,8 +16,17 @@ export default async function handler(req, res) {
             });
         }
 
+        // Check if access key is set
+        if (!process.env.WEB3FORMS_ACCESS_KEY) {
+            console.error("ERROR: WEB3FORMS_ACCESS_KEY environment variable is not set");
+            return res.status(500).json({
+                success: false,
+                message: "Server configuration error: missing API key"
+            });
+        }
+
         const formData = new URLSearchParams();
-        formData.append("access_key", process.env.WEB3FORMS_ACCESS_KEY);
+        formData.append("access_key", process.env.WEB3FORMS_ACCESS_KEY.trim());
         formData.append("name", name);
         formData.append("email", email);
         formData.append("message", message);
@@ -31,15 +40,20 @@ export default async function handler(req, res) {
             body: formData.toString(),
         });
 
+        console.log("Web3Forms Status:", response.status, response.statusText);
+
         if (!response.ok) {
+            const errorText = await response.text();
+            console.error("Web3Forms Error Response:", errorText);
             return res.status(response.status).json({
                 success: false,
-                message: `Web3Forms API error: ${response.statusText}`
+                message: `Web3Forms API error: ${response.statusText}`,
+                details: errorText
             });
         }
 
         const text = await response.text();
-        console.log("Web3Forms raw response:", text);
+        console.log("Web3Forms Success Response:", text);
 
         let result;
         try {
