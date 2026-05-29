@@ -438,8 +438,6 @@
 document.getElementById('contact-form').addEventListener('submit', async function(e) {
     e.preventDefault();
 
-    console.log("FORM SUBMITTED");
-
     const status = document.getElementById('form-status');
     const btn = this.querySelector('.submit-btn');
 
@@ -447,12 +445,12 @@ document.getElementById('contact-form').addEventListener('submit', async functio
     btn.disabled = true;
     status.textContent = '';
 
-    const form = this;
+    console.log("FORM SUBMITTED");
 
     const data = {
-        name: form.querySelector('[name="name"]').value,
-        email: form.querySelector('[name="email"]').value,
-        message: form.querySelector('[name="message"]').value,
+        name: this.querySelector('[name="name"]').value,
+        email: this.querySelector('[name="email"]').value,
+        message: this.querySelector('[name="message"]').value,
     };
 
     try {
@@ -467,19 +465,19 @@ document.getElementById('contact-form').addEventListener('submit', async functio
         const result = await response.json();
         console.log("API RESULT:", result);
 
-        if (result.success || result.message === "SUCCESS") {
+        if (result.success === true || result.message === "SUCCESS") {
             status.textContent = "Message sent successfully!";
-            status.style.color = 'green';
-            form.reset();
+            status.style.color = "green";
+            this.reset();
         } else {
             status.textContent = "Failed to send message.";
-            status.style.color = 'orange';
+            status.style.color = "orange";
         }
 
     } catch (err) {
-        console.log("ERROR:", err);
+        console.log("FRONTEND ERROR:", err);
         status.textContent = "Server error. Try again.";
-        status.style.color = 'red';
+        status.style.color = "red";
     }
 
     btn.textContent = 'Send Message';
